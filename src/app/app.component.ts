@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'chrome-ext-context-menu';
+  title: string = 'Extended Context Menu';
+  window: any = null;
+
+  ngOnInit(){
+    
+  }
+
 }

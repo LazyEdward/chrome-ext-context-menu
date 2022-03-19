@@ -1,0 +1,14 @@
+{
+	"name": "Extended Context Menu",
+	"author": "Lazy Edward",
+	"description": "Extended Utils for Context Menu",
+	"version": "1.0",
+	"manifest_version": 3,
+	"background": {
+		"service_worker": "background.js"
+	},
+	"permissions": ["storage", "contextMenus"],
+	"action": {
+        "default_popup": "index.html"
+    }
+}
