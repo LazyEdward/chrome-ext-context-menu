@@ -3,15 +3,24 @@ chrome.runtime.onInstalled.addListener(() => {
 
 	chrome.contextMenus.create({
 	  "id": "copyAsTextContextMenu",
-	  "title": "Copy as Text",
+	  "title": "Copy Current Element as Text",
 	  "contexts": ["all"]
 	});
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-	console.log("info")
-	console.log(info)
+	// console.log("start copy")
+	if(info.menuItemId === "copyAsTextContextMenu"){
 
-	console.log("tab")
-	console.log(tab)
+		try{
+			chrome.tabs.sendMessage(tab.id, "copyAsText", {frameId: info.frameId}, data => {
+				// console.log("end copy")
+				console.log(data)
+			});
+		}
+		catch(e){
+			console.log("send fail", e)
+		}
+
+	}
 })
