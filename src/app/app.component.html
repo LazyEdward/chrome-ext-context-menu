@@ -1,3 +1,22 @@
 <div class="base">
-	{{title}}
+	<div class="title">
+		{{title}}
+	</div>
+	<div class="list-container">
+		<div class="list" *ngFor="let copyedEle of copyedEles">
+			<div class="no-content" *ngIf="copyedEles.length &lt; 1">
+				No Copied Content
+			</div>
+			<span (click)="copy(copyedEle.text)">{{copyedEle.text}}</span>
+			<span *ngIf="showInnerText" (click)="copy(copyedEle.innerText)">InnerText: {{copyedEle.innerText}}</span>
+			<span *ngIf="showHTML && (copyedEle.html.length &lt; 1)" (click)="copy(copyedEle.html)">Html: {{copyedEle.html}}</span>
+			<span *ngIf="showHTML && (copyedEle.html.length &gt; 0)" (click)="copy(copyedEle.html)" >
+				<div>Html</div>
+				<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
+			</span>
+		</div>
+	</div>
+	<!-- <div class="footer">
+		<button class="reload-button" (click)="getCopyedEles()">Refresh</button>
+	</div> -->
 </div>

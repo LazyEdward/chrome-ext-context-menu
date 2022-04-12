@@ -4,7 +4,7 @@
 	"description": "Extended Utils for Context Menu",
 	"version": "1.0",
 	"manifest_version": 3,
-	"permissions": ["storage", "contextMenus", "activeTab", "scripting"],
+	"permissions": ["storage", "contextMenus", "activeTab", "scripting", "alarms"],
 	"background": {
 		"service_worker": "background.js"
 	},

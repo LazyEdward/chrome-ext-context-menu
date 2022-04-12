@@ -1,6 +1,8 @@
 // https://stackoverflow.com/questions/7703697/how-to-retrieve-the-element-where-a-contextmenu-has-been-executed
 
 //content script
+// let copies = [];
+
 var ele = null;
 
 document.addEventListener("contextmenu", (e) => {
@@ -8,6 +10,9 @@ document.addEventListener("contextmenu", (e) => {
 }, true);
 
 chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
+	if (chrome.runtime.lastError)
+		return;
+
     if(req === "copyAsText") {
 		// would not work if you try to get whole object
 		// console.log(ele.innerHTML)
@@ -15,13 +20,36 @@ chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
 
 		// https://www.30secondsofcode.org/articles/s/copy-text-to-clipboard-with-javascript
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText){
-			navigator.clipboard.writeText(ele.innerText);
+			navigator.clipboard.writeText(ele.textContent);
 		}
 
-        sendRes({ele: ele.innerText});
+		let copyEle = null;
+
+		if(ele){
+			// if(copies > 9)
+			// 	copies.pop()
+
+			if(!ele.innerHTML && !ele.outerHTML && ele.innerText && ele.textContent){
+
+			}
+			else{
+				copyEle = {
+					html: ele.innerHTML ? ele.innerHTML : ele.outerHTML,
+					innerText: ele.innerText ? ele.innerText : '',
+					text: ele.textContent ? ele.textContent : ''
+				}
+			}
+
+			// copies.unshift(copyEle)
+		}
+
+        sendRes({ele: copyEle});
     }
-	else{
-		// https://stackoverflow.com/questions/59214202/receiving-error-in-chrome-extension-unchecked-runtime-lasterror-could-not-esta
-		sendRes({ele: ''});
-	}
+	// else if(req === "getCopies"){
+    //     sendRes({copies: copies});
+	// }
+	// else{
+	// 	// https://stackoverflow.com/questions/59214202/receiving-error-in-chrome-extension-unchecked-runtime-lasterror-could-not-esta
+	// 	sendRes({ele: ''});
+	// }
 });
