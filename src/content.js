@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
 
 		// https://www.30secondsofcode.org/articles/s/copy-text-to-clipboard-with-javascript
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText){
-			navigator.clipboard.writeText(ele.textContent);
+			navigator.clipboard.writeText(ele.innerText);
 		}
 
 		let copyEle = null;
@@ -35,8 +35,8 @@ chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
 			else{
 				copyEle = {
 					html: ele.innerHTML ? ele.innerHTML : ele.outerHTML,
-					innerText: ele.innerText ? ele.innerText : '',
-					text: ele.textContent ? ele.textContent : ''
+					text: ele.innerText ? ele.innerText : '<Cannot find Text in current selection>',
+					textContent: ele.textContent ? ele.textContent : '<Cannot find Text in current selection>'
 				}
 			}
 
@@ -53,3 +53,4 @@ chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
 	// 	sendRes({ele: ''});
 	// }
 });
+

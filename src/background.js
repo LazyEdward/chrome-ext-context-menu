@@ -17,6 +17,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 	console.log("start copy")
 	if(tab.id === chrome.tabs.TAB_ID_NONE){
 		console.log("send fail tab no found");
+		return;
 	}
 
 	if(info.menuItemId === "copyAsTextContextMenu"){
@@ -33,7 +34,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 				if(data && data.ele){
 					let copies = [];
 
-					chrome.storage.local.get("copies", (storage) => {
+					chrome.storage.local.get(["copies"], (storage) => {
 						if (chrome.runtime.lastError) {
 						  console.log("runtime error: copy")
 						  return;

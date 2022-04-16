@@ -1,21 +1,37 @@
 .base {
 	width: 300px;
+	overflow: hidden;
+}
+
+.base::-webkit-scrollbar, .base *::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+.base::-webkit-scrollbar-corner, .base *::-webkit-scrollbar-corner {
+	background-color: #00000000;
+}
+
+.base::-webkit-scrollbar-thumb, .base *::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	background-color: #999;
 }
 
 .title {
-	background-color: #3697b3;
+	background-color: #3f51b5;
 	padding: 10px;
 	font-size: large;
 	color: #ffffff;
 }
 
 .list-container {
+	position: relative;
 	background-color: #ffffff;
-	border: 1px solid #808080;
+	/* border: 1px solid #808080; */
 	overflow-x: hidden;
 	overflow-y: auto;
 	min-height: 200px;
-	max-height: 500px;
+	max-height: 430px;
 }
 
 .no-content {
@@ -26,45 +42,36 @@
 }
 
 .inner-content {
-	display: flex;
+	/* display: flex;
 	justify-content: center;
-	align-content: center;
-	max-width: 300px;
-	max-height: 300px;
+	align-content: center; */
+	max-width: 270px;
+	max-height: 270px;
+	overflow: auto;
 }
 
 .list {
 	display: flex;
 	font-size: medium;
 	flex-direction: column;
-	padding: 5px;
+	padding: 0 !important;
 	color: #000000;
-	border-bottom: 1px solid #000000;
+	border-bottom: 1px solid #ccc;
 }
 
 .list > span {
-	padding: 5px;
 	word-break: break-all;
-	border-bottom: 1px solid #808080;
+	padding: 10px;
+}
+
+.list > span:nth-child(even) {
+	background-color: #e7e9eb;
 }
 
 .list > span:hover {
 	cursor: pointer;
 	color: #ffffff;
-	background-color: #3697b377;
+	background-color: #1c86ff99;
+	/* border-radius: 5px; */
 }
 
-.footer {
-	padding: 5px;
-}
-
-.reload-button {
-	padding: 5px;
-	border-radius: 5px;
-	color: #ffffff;
-	background-color: #3697b3;
-}
-
-.reload-button:hover {
-	background-color: #3697b377;
-}

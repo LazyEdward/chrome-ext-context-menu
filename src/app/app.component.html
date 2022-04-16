@@ -3,12 +3,13 @@
 		{{title}}
 	</div>
 	<div class="list-container">
+		<app-loading-screen [onload]="onload"></app-loading-screen>
+		<div class="no-content" *ngIf="copyedEles.length &lt; 1 && !onload">
+			No Copied Content
+		</div>
 		<div class="list" *ngFor="let copyedEle of copyedEles">
-			<div class="no-content" *ngIf="copyedEles.length &lt; 1">
-				No Copied Content
-			</div>
 			<span (click)="copy(copyedEle.text)">{{copyedEle.text}}</span>
-			<span *ngIf="showInnerText" (click)="copy(copyedEle.innerText)">InnerText: {{copyedEle.innerText}}</span>
+			<span *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">Text Content: {{copyedEle.textContent}}</span>
 			<span *ngIf="showHTML && (copyedEle.html.length &lt; 1)" (click)="copy(copyedEle.html)">Html: {{copyedEle.html}}</span>
 			<span *ngIf="showHTML && (copyedEle.html.length &gt; 0)" (click)="copy(copyedEle.html)" >
 				<div>Html</div>
@@ -16,7 +17,11 @@
 			</span>
 		</div>
 	</div>
-	<!-- <div class="footer">
-		<button class="reload-button" (click)="getCopyedEles()">Refresh</button>
-	</div> -->
+	<app-footer
+		[showTextContent]="showTextContent"
+		[showHTML]="showHTML"
+		(toogleShowTextContentEvent)="toogleShowTextContent($event)"
+		(toogleShowHTMLEvent)="toogleShowHTML($event)"
+		(cleanHistoryEvent)="cleanHistory()"
+	></app-footer>
 </div>
