@@ -59,19 +59,34 @@
 	border-bottom: 1px solid #ccc;
 }
 
-.list > span {
+.list > .hover-element {
 	word-break: break-all;
 	padding: 10px;
 }
 
-.list > span:nth-child(even) {
+.list > .hover-element:nth-child(even) {
 	background-color: #e7e9eb;
 }
 
-.list > span:hover {
+.list > .hover-element:hover {
 	cursor: pointer;
 	color: #ffffff;
 	background-color: #1c86ff99;
 	/* border-radius: 5px; */
 }
 
+.hover-element {
+	position: relative;
+}
+
+.hover-show {
+	position: absolute;
+	color: #ccc;
+	top: 0;
+	right: 10px;
+	display: none;
+}
+
+.hover-element:hover > .hover-show {
+	display: block;
+}

@@ -7,13 +7,19 @@
 		<div class="no-content" *ngIf="copyedEles.length &lt; 1 && !onload">
 			No Copied Content
 		</div>
-		<div class="list" *ngFor="let copyedEle of copyedEles">
-			<span (click)="copy(copyedEle.text)">{{copyedEle.text}}</span>
-			<span *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">Text Content: {{copyedEle.textContent}}</span>
-			<span *ngIf="showHTML && (copyedEle.html.length &lt; 1)" (click)="copy(copyedEle.html)">Html: {{copyedEle.html}}</span>
-			<span *ngIf="showHTML && (copyedEle.html.length &gt; 0)" (click)="copy(copyedEle.html)" >
-				<div>Html</div>
-				<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
+		<div class="list" *ngFor="let copyedEle of copyedEles; let eleIndex=index"  [attr.data-index]="eleIndex">
+			<span class="hover-element" (click)="copy(copyedEle.text)" (mousedown)="focusElement(eleIndex, copyedEle.text)" (mouseup)="unfocusElement()">
+				<span>{{copyedEle.text}}</span>			
+			</span>
+			<span class="hover-element" *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">
+				<span>Text Content: {{copyedEle.textContent}}</span>
+			</span>
+			<span class="hover-element"  *ngIf="showHTML" (click)="copy(copyedEle.html)">
+				<span *ngIf="copyedEle.html.length &lt; 1">Html: {{copyedEle.html}}</span>
+				<span *ngIf="copyedEle.html.length &gt; 0">
+					<div>Html</div>
+					<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
+				</span>
 			</span>
 		</div>
 	</div>
@@ -22,6 +28,6 @@
 		[showHTML]="showHTML"
 		(toogleShowTextContentEvent)="toogleShowTextContent($event)"
 		(toogleShowHTMLEvent)="toogleShowHTML($event)"
-		(cleanHistoryEvent)="cleanHistory()"
+		(cleanHistoryEvent)="confirmCleanHistory()"
 	></app-footer>
 </div>

@@ -1,6 +1,9 @@
 // https://stackoverflow.com/questions/47075437/cannot-find-namespace-name-chrome
 /// <reference types="chrome"/>
 import {Component, OnInit,  NgZone } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { WarningModalComponent } from './warning-modal/warning-modal.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +16,11 @@ export class AppComponent implements OnInit {
   copyedEles: any = [];
   showTextContent: boolean = false;
   showHTML: boolean = false;
+  selectMode: boolean = false;
 
-  constructor(private _ngZone: NgZone){}
+  focusedEle: any = null;
 
+  constructor(private _ngZone: NgZone, public dialog: MatDialog){}
 
   ngOnInit() {
     this._ngZone.run(() => {
@@ -27,63 +32,73 @@ export class AppComponent implements OnInit {
 
   getCopyedEles(){
     // for local test
-    // this.copyedEles = [
-    //     {
-    //       html: "<div>For test</div>",
-    //       text: "For test",
-    //       textContent: "For test"
-    //     },
-    //     {
-    //       html: `<img alt="圖片" draggable="true" src="https://pbs.twimg.com/media/FQTn6bnVgAMdOZY?format=jpg&amp;name=small" class="css-9pa8cd">`,
-    //       text: "For test Local",
-    //       textContent: "For test Local"
-    //     }
-    // ]
+    this.copyedEles = [
+        {
+          html: "<div>For test</div>",
+          text: "For test",
+          textContent: "For test"
+        },
+        {
+          html: `<img alt="圖片" draggable="true" src="https://pbs.twimg.com/media/FQTn6bnVgAMdOZY?format=jpg&amp;name=small" class="css-9pa8cd">`,
+          text: "For test Local",
+          textContent: "For test Local"
+        }
+    ]
 
-    // setTimeout(() => {
+    setTimeout(() => {
+        this._ngZone.run(() => {
+          this.onload = false;
+        })
+    }, 500);
+
+    // for extension
+    // chrome.storage.local.get(["copies", "showTextContent", "showHTML"], (data) => {
+    //   if (chrome.runtime.lastError) {
+    //     console.log("runtime error: getCopyedEles")
     //     this._ngZone.run(() => {
     //       this.onload = false;
     //     })
-    // }, 500);
+    //     return;
+    //   }
 
-    // for extension
-    chrome.storage.local.get(["copies", "showTextContent", "showHTML"], (data) => {
-      if (chrome.runtime.lastError) {
-        console.log("runtime error: getCopyedEles")
-        this._ngZone.run(() => {
-          this.onload = false;
-        })
-        return;
-      }
+    //   if(data){
+    //     var copyedEles: any = []
+    //     var showTextContent: boolean = false;
+    //     var showHTML: boolean = false;
 
-      if(data){
-        var copyedEles: any = []
-        var showTextContent: boolean = false;
-        var showHTML: boolean = false;
+    //     if(data["showTextContent"])
+    //       showTextContent = data["showTextContent"];
 
-        if(data["showTextContent"])
-          showTextContent = data["showTextContent"];
+    //     if(data["showHTML"])
+    //       showHTML = data["showHTML"];
 
-        if(data["showHTML"])
-          showHTML = data["showHTML"];
+    //     if(data["copies"] && data["copies"].length > 0){
+    //       console.log(data["copies"])
+    //       copyedEles = data["copies"];
+    //     }
 
-        if(data["copies"] && data["copies"].length > 0){
-          console.log(data["copies"])
-          copyedEles = data["copies"];
-        }
+    //     this._ngZone.run(() => {
+    //       this.showTextContent = showTextContent;
+    //       this.showHTML = showHTML;
+    //       this.copyedEles = copyedEles;
+    //       this.onload = false;
+    //     })
+    //   }
+    //   else{
+    //     this._ngZone.run(() => {
+    //       this.onload = false;
+    //     })
+    //   }
+    // })
+  }
 
-        this._ngZone.run(() => {
-          this.showTextContent = showTextContent;
-          this.showHTML = showHTML;
-          this.copyedEles = copyedEles;
-          this.onload = false;
-        })
-      }
-      else{
-        this._ngZone.run(() => {
-          this.onload = false;
-        })
-      }
+  confirmCleanHistory() {
+    const warningRef = this.dialog.open(WarningModalComponent);
+    
+    // https://github.com/angular/components/issues/3593
+    warningRef.afterClosed().subscribe(res => {
+      if(res === "submit")
+        this.cleanHistory();
     })
   }
 
@@ -116,6 +131,18 @@ export class AppComponent implements OnInit {
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText){
 			navigator.clipboard.writeText(text);
 		}
+  }
+
+  longPress(index: number, text: string){
+    console.log(index, text);
+  }
+
+  focusElement(index: number, text: string) {    
+    this.focusedEle = setTimeout(() => {this.longPress(index, text)}, 500);
+  }
+
+  unfocusElement() {    
+    clearTimeout(this.focusedEle);
   }
 
   toogleShowTextContent(checked: boolean) {
