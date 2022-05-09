@@ -1,5 +1,6 @@
 <div mat-dialog-content>
-	<p>Clean all Data?</p>
+	<p *ngIf="!data.selectMode">Clean all Data?</p>
+	<p *ngIf="data.selectMode">Clean all Selceted Data?</p>
 </div>
 <div mat-dialog-actions>
 	<button mat-button color="warn" (click)="onCancel()">Cancel</button>

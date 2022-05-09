@@ -31,11 +31,11 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 	min-height: 200px;
-	max-height: 430px;
+	max-height: 350px;
 }
 
 .no-content {
-	padding: 5px;
+	padding-top: 100px;
 	display: flex;
 	justify-content: center;
 	align-content: center;
@@ -50,16 +50,62 @@
 	overflow: auto;
 }
 
+.list-outer {
+	border-bottom: 1px solid #ccc;
+}
+
+.list-outer-selected {
+	border-bottom: 1px solid #ccc;
+}
+
+:host::ng-deep.mat-checkbox{
+	width: 100%;
+}
+
+:host::ng-deep.mat-checkbox-label{
+	width: 100%;
+}
+
+:host::ng-deep.mat-checkbox-layout{
+	padding-right: 10px;
+	white-space: inherit;
+	width: 100%;
+}
+
+:host::ng-deep.mat-checkbox-inner-container{
+	order: 1;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
 .list {
 	display: flex;
+	width: 100%;
 	font-size: medium;
 	flex-direction: column;
 	padding: 0 !important;
 	color: #000000;
-	border-bottom: 1px solid #ccc;
+}
+
+.list-selected {
+	display: flex;
+	width: 100%;
+	font-size: medium;
+	flex-direction: column;
+	padding: 0 !important;
+	color: #000000;
 }
 
 .list > .hover-element {
+	word-break: break-all;
+	padding: 10px;
+}
+
+.list-selected > .hover-element:nth-child(even) {
+	background-color: #e7e9eb;
+}
+
+.list-selected > .hover-element {
 	word-break: break-all;
 	padding: 10px;
 }

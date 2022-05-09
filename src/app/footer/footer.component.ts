@@ -8,12 +8,16 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 })
 export class FooterComponent implements OnInit {
 
+  @Input() selectMode: boolean = false;
   @Input() showTextContent: boolean = false;
   @Input() showHTML: boolean = false;
+  @Input() showPopUp: boolean = false;
 
   @Output() toogleShowTextContentEvent = new EventEmitter<boolean>();
   @Output() toogleShowHTMLEvent = new EventEmitter<boolean>();
+  @Output() toogleShowPopUpEvent = new EventEmitter<boolean>();
   @Output() cleanHistoryEvent = new EventEmitter<void>();
+  @Output() cancelCleanHistoryEvent = new EventEmitter<void>();
 
   constructor() { }
 
@@ -28,8 +32,16 @@ export class FooterComponent implements OnInit {
     this.toogleShowHTMLEvent.emit(e.checked);
   }
 
+  toogleShowPopUp(e: MatSlideToggleChange) {
+    this.toogleShowPopUpEvent.emit(e.checked);
+  }
+
   cleanHistory() {
     this.cleanHistoryEvent.emit();
+  }
+
+  cancelCleanHistory() {
+    this.cancelCleanHistoryEvent.emit();
   }
 
 }

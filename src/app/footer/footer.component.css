@@ -8,3 +8,7 @@
 	display: flex;
 	padding: 5px;
 }
+
+.button-left {
+	margin-left: 5px;
+}

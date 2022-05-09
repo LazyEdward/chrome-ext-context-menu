@@ -34,7 +34,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 				if(data && data.ele){
 					let copies = [];
 
-					chrome.storage.local.get(["copies"], (storage) => {
+					chrome.storage.local.get(["copies", "alwaysShowPopUp"], (storage) => {
 						if (chrome.runtime.lastError) {
 						  console.log("runtime error: copy")
 						  return;
@@ -55,6 +55,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 								console.log("runtime error: sendMessage")
 								return;
 							}
+
+							// missing api although stated in document
+							// https://github.com/GoogleChrome/developer.chrome.com/issues/204
+							// if(storage["alwaysShowPopUp"])
+							// 	chrome.action.openPopup()
 						})
 
 					})

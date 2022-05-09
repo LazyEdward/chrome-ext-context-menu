@@ -7,27 +7,50 @@
 		<div class="no-content" *ngIf="copyedEles.length &lt; 1 && !onload">
 			No Copied Content
 		</div>
-		<div class="list" *ngFor="let copyedEle of copyedEles; let eleIndex=index"  [attr.data-index]="eleIndex">
-			<span class="hover-element" (click)="copy(copyedEle.text)" (mousedown)="focusElement(eleIndex, copyedEle.text)" (mouseup)="unfocusElement()">
-				<span>{{copyedEle.text}}</span>			
-			</span>
-			<span class="hover-element" *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">
-				<span>Text Content: {{copyedEle.textContent}}</span>
-			</span>
-			<span class="hover-element"  *ngIf="showHTML" (click)="copy(copyedEle.html)">
-				<span *ngIf="copyedEle.html.length &lt; 1">Html: {{copyedEle.html}}</span>
-				<span *ngIf="copyedEle.html.length &gt; 0">
-					<div>Html</div>
-					<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
+		<div class="{{selectMode ? 'list-outer-selected' : 'list-outer'}}" *ngFor="let copyedEle of copyedEles; let eleIndex=index"  [attr.data-index]="eleIndex" (mousedown)="focusElement(eleIndex)" (mouseup)="unfocusElement()">
+			<mat-checkbox class="checkbox" *ngIf="selectMode" color="primary" [checked]="copyedEle.selected" (change)="switchEleSelection(eleIndex)">
+				<div class="{{selectMode ? 'list-selected' : 'list'}}">
+					<span class="hover-element" (click)="copy(copyedEle.text)">				
+						<span>{{copyedEle.text}}</span>			
+					</span>
+					<span class="hover-element" *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">
+						<span>Text Content: {{copyedEle.textContent}}</span>
+					</span>
+					<span class="hover-element"  *ngIf="showHTML" (click)="copy(copyedEle.html)">
+						<span *ngIf="copyedEle.html.length &lt; 1">Html: {{copyedEle.html}}</span>
+						<span *ngIf="copyedEle.html.length &gt; 0">
+							<div>Html</div>
+							<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
+						</span>
+					</span>				
+				</div>
+			</mat-checkbox>
+			<div class="list" *ngIf="!selectMode">
+				<span class="hover-element" (click)="copy(copyedEle.text)">				
+					<span>{{copyedEle.text}}</span>			
 				</span>
-			</span>
+				<span class="hover-element" *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">
+					<span>Text Content: {{copyedEle.textContent}}</span>
+				</span>
+				<span class="hover-element"  *ngIf="showHTML" (click)="copy(copyedEle.html)">
+					<span *ngIf="copyedEle.html.length &lt; 1">Html: {{copyedEle.html}}</span>
+					<span *ngIf="copyedEle.html.length &gt; 0">
+						<div>Html</div>
+						<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
+					</span>
+				</span>				
+			</div>
 		</div>
 	</div>
 	<app-footer
+		[selectMode]="selectMode"
 		[showTextContent]="showTextContent"
 		[showHTML]="showHTML"
+		[showPopUp]="alwaysShowPopUp"
 		(toogleShowTextContentEvent)="toogleShowTextContent($event)"
 		(toogleShowHTMLEvent)="toogleShowHTML($event)"
+		(toogleShowPopUpEvent)="toogleAlwaysShowPopUp($event)"
 		(cleanHistoryEvent)="confirmCleanHistory()"
+		(cancelCleanHistoryEvent)="cancelCleanHistory()"
 	></app-footer>
 </div>
