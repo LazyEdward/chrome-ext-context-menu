@@ -34,11 +34,14 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 				if(data && data.ele){
 					let copies = [];
 
-					chrome.storage.local.get(["copies", "alwaysShowPopUp"], (storage) => {
+					chrome.storage.local.get(["copies", "alwaysShowPopUp", "stopClipboardRecording"], (storage) => {
 						if (chrome.runtime.lastError) {
 						  console.log("runtime error: copy")
 						  return;
 						}
+
+						if(storage && storage["stopClipboardRecording"])
+							return;
 				  
 						if(storage && storage["copies"] && storage["copies"].length > 0){
 						  console.log(storage["copies"])

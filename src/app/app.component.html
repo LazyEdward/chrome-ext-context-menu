@@ -11,26 +11,28 @@
 			<mat-checkbox class="checkbox" *ngIf="selectMode" color="primary" [checked]="copyedEle.selected" (change)="switchEleSelection(eleIndex)">
 				<div class="{{selectMode ? 'list-selected' : 'list'}}">
 					<span class="hover-element" (click)="copy(copyedEle.text)">				
-						<span>{{copyedEle.text}}</span>			
+						<span>{{copyedEle.text}}</span>
 					</span>
 					<span class="hover-element" *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">
 						<span>Text Content: {{copyedEle.textContent}}</span>
 					</span>
-					<span class="hover-element"  *ngIf="showHTML" (click)="copy(copyedEle.html)">
+					<span class="hover-element" *ngIf="showHTML" (click)="copy(copyedEle.html)">
 						<span *ngIf="copyedEle.html.length &lt; 1">Html: {{copyedEle.html}}</span>
 						<span *ngIf="copyedEle.html.length &gt; 0">
 							<div>Html</div>
 							<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
-						</span>
+						</span>						
 					</span>				
 				</div>
 			</mat-checkbox>
 			<div class="list" *ngIf="!selectMode">
 				<span class="hover-element" (click)="copy(copyedEle.text)">				
-					<span>{{copyedEle.text}}</span>			
+					<span>{{copyedEle.text}}</span>	
+					<span class="hover-show"><mat-icon>file_copy</mat-icon></span>		
 				</span>
 				<span class="hover-element" *ngIf="showTextContent" (click)="copy(copyedEle.textContent)">
 					<span>Text Content: {{copyedEle.textContent}}</span>
+					<span class="hover-show"><mat-icon>file_copy</mat-icon></span>
 				</span>
 				<span class="hover-element"  *ngIf="showHTML" (click)="copy(copyedEle.html)">
 					<span *ngIf="copyedEle.html.length &lt; 1">Html: {{copyedEle.html}}</span>
@@ -38,6 +40,7 @@
 						<div>Html</div>
 						<div class="inner-content" disabled [innerHtml]="copyedEle.html"></div>
 					</span>
+					<span class="hover-show"><mat-icon>file_copy</mat-icon></span>
 				</span>				
 			</div>
 		</div>
@@ -46,10 +49,11 @@
 		[selectMode]="selectMode"
 		[showTextContent]="showTextContent"
 		[showHTML]="showHTML"
+		[stopClipboardRecording]="stopClipboardRecording"
 		[showPopUp]="alwaysShowPopUp"
 		(toogleShowTextContentEvent)="toogleShowTextContent($event)"
 		(toogleShowHTMLEvent)="toogleShowHTML($event)"
-		(toogleShowPopUpEvent)="toogleAlwaysShowPopUp($event)"
+		(toogleStopClipboardRecordingEvent)="toogleStopClipboardRecording($event)"
 		(cleanHistoryEvent)="confirmCleanHistory()"
 		(cancelCleanHistoryEvent)="cancelCleanHistory()"
 	></app-footer>

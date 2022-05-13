@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   showTextContent: boolean = false;
   showHTML: boolean = false;
   alwaysShowPopUp: boolean = false;
+  stopClipboardRecording: boolean = false;
 
   selectMode: boolean = false;
   triggerSelectMode: any = null;
@@ -25,10 +26,6 @@ export class AppComponent implements OnInit {
   constructor(private _ngZone: NgZone, public dialog: MatDialog){}
 
   ngOnInit() {
-    this._ngZone.run(() => {
-      this.onload = true;
-    })
-
     this.getCopyedEles()
   }
 
@@ -54,22 +51,29 @@ export class AppComponent implements OnInit {
     // }, 500);
 
     // for extension
+    this._ngZone.run(() => {
+      this.onload = true;
+    })
+
     ChromeApi.fetchHistory(
-      ["copies", "showTextContent", "showHTML", "alwaysShowPopUp"],
+      ["copies", "showTextContent", "showHTML", "alwaysShowPopUp", "stopClipboardRecording"],
       (data: any) => {
         if(data){
           var copyedEles: any = []
           var showTextContent: boolean = false;
           var showHTML: boolean = false;
+          var stopClipboardRecording: boolean = false;
   
+          console.log(data);
+
           if(data["showTextContent"])
             showTextContent = data["showTextContent"];
   
           if(data["showHTML"])
             showHTML = data["showHTML"];
-  
-          if(data["alwaysShowPopUp"])
-            showHTML = data["alwaysShowPopUp"];
+
+          if(data["stopClipboardRecording"])
+            stopClipboardRecording = data["stopClipboardRecording"];
   
           if(data["copies"] && data["copies"].length > 0){
             console.log(data["copies"])
@@ -80,6 +84,7 @@ export class AppComponent implements OnInit {
           this._ngZone.run(() => {
             this.showTextContent = showTextContent;
             this.showHTML = showHTML;
+            this.stopClipboardRecording = stopClipboardRecording;
             this.copyedEles = copyedEles;
             this.onload = false;
           })
@@ -156,7 +161,9 @@ export class AppComponent implements OnInit {
     // console.log('clean')
 
     // for extension
-    this.onload = true;
+    this._ngZone.run(() => {
+      this.onload = true;
+    })
 
     // chrome.storage.local.set({copies: []}, () => {
     //   if (chrome.runtime.lastError) {
@@ -233,6 +240,7 @@ export class AppComponent implements OnInit {
   }
 
   toogleShowTextContent(checked: boolean) {
+    this.onload = true;
     this.showTextContent = checked;
     // this.setShowTextContent(checked)
     ChromeApi.setPreferences("showTextContent", checked,
@@ -245,6 +253,7 @@ export class AppComponent implements OnInit {
   }
 
   toogleShowHTML(checked: boolean) {
+    this.onload = true;
     this.showHTML = checked;
     // this.setShowHTML(checked)
     ChromeApi.setPreferences("showHTML", checked,
@@ -257,6 +266,7 @@ export class AppComponent implements OnInit {
   }
 
   toogleAlwaysShowPopUp(checked: boolean) {
+    this.onload = true;
     this.alwaysShowPopUp = checked;
     // this.setAlwaysShowPopUp(checked)
     ChromeApi.setPreferences("alwaysShowPopUp", checked,
@@ -268,50 +278,16 @@ export class AppComponent implements OnInit {
     );    
   }
 
-  // setShowTextContent(checked: boolean) {
-  //   // this.setPreferences("showTextContent", checked);
-  //   ChromeApi.setPreferences("showTextContent", checked,
-  //     () => {
-  //       this._ngZone.run(() => {
-  //         this.onload = false;
-  //       })
-  //     }
-  //   );
-  // }
-
-  // setShowHTML(checked: boolean) {
-  //   // this.setPreferences("showHTML", checked);
-  //   ChromeApi.setPreferences("showHTML", checked,
-  //     () => {
-  //       this._ngZone.run(() => {
-  //         this.onload = false;
-  //       })
-  //     }
-  //   );
-  // }
-
-  // setAlwaysShowPopUp(checked: boolean) {
-  //   // this.setPreferences("alwaysShowPopUp", checked);
-  //   ChromeApi.setPreferences("alwaysShowPopUp", checked,
-  //     () => {
-  //       this._ngZone.run(() => {
-  //         this.onload = false;
-  //       })
-  //     }
-  //   );
-  // }
-
-  // setPreferences(name: string, checked: boolean) {
-  //   chrome.storage.local.set({[name]: checked}, () => {
-  //     if (chrome.runtime.lastError) {
-  //       console.log("runtime error: set preference")
-  //     }
-
-  //     this._ngZone.run(() => {
-  //       this.onload = false;
-  //     })
-
-  //   })
-  // }
-
+  toogleStopClipboardRecording(checked: boolean) {
+    this.onload = true;
+    this.stopClipboardRecording = checked;
+    // this.setAlwaysShowPopUp(checked)
+    ChromeApi.setPreferences("stopClipboardRecording", checked,
+      () => {
+        this._ngZone.run(() => {
+          this.onload = false;
+        })
+      }
+    );    
+  }
 }

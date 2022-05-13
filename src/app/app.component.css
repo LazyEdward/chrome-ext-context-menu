@@ -96,21 +96,7 @@
 	color: #000000;
 }
 
-.list > .hover-element {
-	word-break: break-all;
-	padding: 10px;
-}
-
-.list-selected > .hover-element:nth-child(even) {
-	background-color: #e7e9eb;
-}
-
-.list-selected > .hover-element {
-	word-break: break-all;
-	padding: 10px;
-}
-
-.list > .hover-element:nth-child(even) {
+.hover-element:nth-child(even) {
 	background-color: #e7e9eb;
 }
 
@@ -123,12 +109,15 @@
 
 .hover-element {
 	position: relative;
+	word-break: break-all;
+	padding: 10px;
+	user-select: none;	
 }
 
 .hover-show {
 	position: absolute;
-	color: #ccc;
-	top: 0;
+	color: #989898;
+	bottom: 0;
 	right: 10px;
 	display: none;
 }

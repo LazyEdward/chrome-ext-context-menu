@@ -12,10 +12,12 @@ export class FooterComponent implements OnInit {
   @Input() showTextContent: boolean = false;
   @Input() showHTML: boolean = false;
   @Input() showPopUp: boolean = false;
+  @Input() stopClipboardRecording: boolean = false;
 
   @Output() toogleShowTextContentEvent = new EventEmitter<boolean>();
   @Output() toogleShowHTMLEvent = new EventEmitter<boolean>();
   @Output() toogleShowPopUpEvent = new EventEmitter<boolean>();
+  @Output() toogleStopClipboardRecordingEvent = new EventEmitter<boolean>();
   @Output() cleanHistoryEvent = new EventEmitter<void>();
   @Output() cancelCleanHistoryEvent = new EventEmitter<void>();
 
@@ -34,6 +36,10 @@ export class FooterComponent implements OnInit {
 
   toogleShowPopUp(e: MatSlideToggleChange) {
     this.toogleShowPopUpEvent.emit(e.checked);
+  }
+
+  toogleStopClipboardRecording(e: MatSlideToggleChange) {
+    this.toogleStopClipboardRecordingEvent.emit(e.checked);
   }
 
   cleanHistory() {
