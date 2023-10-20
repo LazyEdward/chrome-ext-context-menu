@@ -3,11 +3,68 @@
 //content script
 // let copies = [];
 
-var ele = null;
+const focusStyle = { 'border': '2px dashed #4ACDF5', 'opacity': 0.75 }
+
+let highlightTargetEle = true;
+let alwaysShowContextMenu = false;
+
+let prevStyle = null;
+let ele = null;
+
+const focusElement = () => {
+	if(!highlightTargetEle)
+		return;
+
+	prevStyle = {}
+	for(let key of Object.keys(focusStyle)){
+		prevStyle[key] = ele.style[key] ?? ''
+		ele.style[key] = focusStyle[key]
+	}
+}
+
+const cancelElementFocus = () => {
+	if(!prevStyle)
+		return;
+
+	for(let key of Object.keys(prevStyle))
+		ele.style[key] = prevStyle[key]
+
+	ele = null
+	prevStyle = null
+}
 
 document.addEventListener("contextmenu", (e) => {
+	if(!!ele)
+		cancelElementFocus();
+
+	if(!!alwaysShowContextMenu)
+		e.stopPropagation();
+
     ele = e.target;
+
+	focusElement();
+
 }, true);
+
+document.addEventListener("click", (e) => {
+	if(!!ele)
+		cancelElementFocus();
+})
+
+document.addEventListener("visibilitychange", () => {
+	if (document.visibilityState !== "visible"){
+		if(!!ele)
+			cancelElementFocus();
+	}
+});
+
+chrome.storage.onChanged.addListener((changes) => {
+	if(!!changes['highlightTargetEle'])
+		highlightTargetEle = changes['highlightTargetEle'].newValue
+
+	if(!!changes['alwaysShowContextMenu'])
+		alwaysShowContextMenu = changes['alwaysShowContextMenu'].newValue
+})
 
 chrome.runtime.onMessage.addListener((req, sender, sendRes) => {
 	if (chrome.runtime.lastError)

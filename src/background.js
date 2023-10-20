@@ -6,6 +6,8 @@ chrome.runtime.onInstalled.addListener(() => {
 	// https://stackoverflow.com/questions/66391018/how-do-i-call-a-function-periodically-in-a-manifest-v3-chrome-extension
 	chrome.alarms.create('alarm', { delayInMinutes: 3.0 });
 
+	chrome.storage.local.set({'highlightTargetEle': true, 'alwaysShowContextMenu': false})
+
 	chrome.contextMenus.create({
 	  "id": "copyAsTextContextMenu",
 	  "title": "Copy Current Element",

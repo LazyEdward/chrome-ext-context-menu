@@ -1,7 +1,9 @@
 <div class="footer">
-	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="showTextContent" (change)="toogleShowTextContent($event)">Show Text Content</mat-slide-toggle></span>
-	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="showHTML" (change)="toogleShowHTML($event)">Show As Html</mat-slide-toggle></span>
-	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="stopClipboardRecording" (change)="toogleStopClipboardRecording($event)">Pause Clipboard Recording</mat-slide-toggle></span>
+	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="highlightTargetEle" (change)="toogleHighlightTargetEle($event)">Highlight Target Element</mat-slide-toggle></span>
+	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="alwaysShowContextMenu" (change)="toogleAlwaysShowContextMenu($event)">Always Show Context Menu</mat-slide-toggle></span>
+	<!-- <span class="footer-elements"><mat-slide-toggle color="primary" [checked]="showTextContent" (change)="toogleShowTextContent($event)">Show Text Content</mat-slide-toggle></span> -->
+	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="showHTML" (change)="toogleShowHTML($event)">Show As Inner Html</mat-slide-toggle></span>
+	<span class="footer-elements"><mat-slide-toggle color="primary" [checked]="stopClipboardRecording" (change)="toogleStopClipboardRecording($event)">Pause Add to Clipboard</mat-slide-toggle></span>
 	<!-- <span class="footer-elements"><mat-slide-toggle color="primary" [checked]="showPopUp" [disabled]="true" (change)="toogleShowPopUp($event)">Always show Extension Pop up (Currently Not Availble)</mat-slide-toggle></span> -->
 	<span class="footer-elements">
 		<button mat-raised-button color="warn" (click)="cleanHistory()">{{selectMode ? "Remove Selected" : "Remove All"}}</button>

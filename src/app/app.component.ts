@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
   title: string = 'Extended Context Menu';
   onload: boolean = true;
   copyedEles: any = [];
+  highlightTargetEle: boolean = true;
+  alwaysShowContextMenu: boolean = false;
   showTextContent: boolean = false;
   showHTML: boolean = false;
   alwaysShowPopUp: boolean = false;
@@ -56,24 +58,23 @@ export class AppComponent implements OnInit {
     })
 
     ChromeApi.fetchHistory(
-      ["copies", "showTextContent", "showHTML", "alwaysShowPopUp", "stopClipboardRecording"],
+      ["copies", "highlightTargetEle", "alwaysShowContextMenu", "showTextContent", "showHTML", "alwaysShowPopUp", "stopClipboardRecording"],
       (data: any) => {
         if(data){
-          var copyedEles: any = []
-          var showTextContent: boolean = false;
-          var showHTML: boolean = false;
-          var stopClipboardRecording: boolean = false;
+          let copyedEles: any = []
+          let highlightTargetEle: boolean = false;
+          let alwaysShowContextMenu: boolean = false;
+          let showTextContent: boolean = false;
+          let showHTML: boolean = false;
+          let stopClipboardRecording: boolean = false;
   
           console.log(data);
 
-          if(data["showTextContent"])
-            showTextContent = data["showTextContent"];
-  
-          if(data["showHTML"])
-            showHTML = data["showHTML"];
-
-          if(data["stopClipboardRecording"])
-            stopClipboardRecording = data["stopClipboardRecording"];
+          highlightTargetEle = !!data["highlightTargetEle"];
+          alwaysShowContextMenu = !!data["alwaysShowContextMenu"];
+          showTextContent = !!data["showTextContent"];
+          showHTML = !!data["showHTML"];
+          stopClipboardRecording = !!data["stopClipboardRecording"];
   
           if(data["copies"] && data["copies"].length > 0){
             console.log(data["copies"])
@@ -82,6 +83,8 @@ export class AppComponent implements OnInit {
           }
   
           this._ngZone.run(() => {
+            this.highlightTargetEle = highlightTargetEle;
+            this.alwaysShowContextMenu = alwaysShowContextMenu;
             this.showTextContent = showTextContent;
             this.showHTML = showHTML;
             this.stopClipboardRecording = stopClipboardRecording;
@@ -237,6 +240,32 @@ export class AppComponent implements OnInit {
 		if (navigator && navigator.clipboard && navigator.clipboard.writeText){
 			navigator.clipboard.writeText(text);
 		}
+  }
+
+  toogleHighlightTargetEle(checked: boolean) {
+    this.onload = true;
+    this.highlightTargetEle = checked;
+    // this.setShowTextContent(checked)
+    ChromeApi.setPreferences("highlightTargetEle", checked,
+      () => {
+        this._ngZone.run(() => {
+          this.onload = false;
+        })
+      }
+    );    
+  }
+
+  toogleAlwaysShowContextMenu(checked: boolean) {
+    this.onload = true;
+    this.alwaysShowContextMenu = checked;
+    // this.setShowTextContent(checked)
+    ChromeApi.setPreferences("alwaysShowContextMenu", checked,
+      () => {
+        this._ngZone.run(() => {
+          this.onload = false;
+        })
+      }
+    );    
   }
 
   toogleShowTextContent(checked: boolean) {

@@ -9,11 +9,15 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 export class FooterComponent implements OnInit {
 
   @Input() selectMode: boolean = false;
+  @Input() highlightTargetEle: boolean = false;
+  @Input() alwaysShowContextMenu: boolean = false;
   @Input() showTextContent: boolean = false;
   @Input() showHTML: boolean = false;
   @Input() showPopUp: boolean = false;
   @Input() stopClipboardRecording: boolean = false;
 
+  @Output() toogleHighlightTargetEleEvent = new EventEmitter<boolean>();
+  @Output() toogleAlwaysShowContextMenuEvent = new EventEmitter<boolean>();
   @Output() toogleShowTextContentEvent = new EventEmitter<boolean>();
   @Output() toogleShowHTMLEvent = new EventEmitter<boolean>();
   @Output() toogleShowPopUpEvent = new EventEmitter<boolean>();
@@ -24,6 +28,14 @@ export class FooterComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toogleHighlightTargetEle(e: MatSlideToggleChange) {
+    this.toogleHighlightTargetEleEvent.emit(e.checked);
+  }
+
+  toogleAlwaysShowContextMenu(e: MatSlideToggleChange) {
+    this.toogleAlwaysShowContextMenuEvent.emit(e.checked);
   }
 
   toogleShowTextContent(e: MatSlideToggleChange) {

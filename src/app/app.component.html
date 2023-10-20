@@ -47,11 +47,14 @@
 	</div>
 	<app-footer
 		[selectMode]="selectMode"
+		[highlightTargetEle]="highlightTargetEle"
+		[alwaysShowContextMenu]="alwaysShowContextMenu"
 		[showTextContent]="showTextContent"
 		[showHTML]="showHTML"
 		[stopClipboardRecording]="stopClipboardRecording"
 		[showPopUp]="alwaysShowPopUp"
-		(toogleShowTextContentEvent)="toogleShowTextContent($event)"
+		(toogleHighlightTargetEleEvent)="toogleHighlightTargetEle($event)"
+		(toogleAlwaysShowContextMenuEvent)="toogleAlwaysShowContextMenu($event)"
 		(toogleShowHTMLEvent)="toogleShowHTML($event)"
 		(toogleStopClipboardRecordingEvent)="toogleStopClipboardRecording($event)"
 		(cleanHistoryEvent)="confirmCleanHistory()"

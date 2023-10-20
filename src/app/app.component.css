@@ -51,11 +51,15 @@
 }
 
 .list-outer {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;
 }
 
 .list-outer-selected {
-	border-bottom: 1px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;
 }
 
 :host::ng-deep.mat-checkbox{
