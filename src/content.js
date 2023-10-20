@@ -11,7 +11,14 @@ let alwaysShowContextMenu = false;
 let prevStyle = null;
 let ele = null;
 
-const focusElement = () => {
+chrome.storage.local.get(['highlightTargetEle', 'alwaysShowContextMenu'], (storage) => {
+	if(storage){
+		highlightTargetEle = storage['highlightTargetEle']
+		alwaysShowContextMenu = storage['alwaysShowContextMenu']
+	}
+})
+
+const focusElement = (ele) => {
 	if(!highlightTargetEle)
 		return;
 
@@ -42,7 +49,7 @@ document.addEventListener("contextmenu", (e) => {
 
     ele = e.target;
 
-	focusElement();
+	focusElement(ele);
 
 }, true);
 
